@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Agenda</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+
+    background: radial-gradient(circle at center, 
+        #123b8f 0%, 
+        #0d2c6c 30%, 
+        #081f4d 60%, 
+        #030f2e 100%
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.urgent {
+    border-left: 6px solid #ff4d4d;
+}
+
+.medium {
+    border-left: 6px solid #ffa502;
+}
+
+.normal {
+    border-left: 6px solid #2ed573;
+}
+
+.tag {
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    color: white;
+    margin-left: 8px;
+}
+
+.tag.urgent {
+    background: #ff4d4d;
+}
+
+.tag.medium {
+    background: #ffa502;
+}
+
+.tag.normal {
+    background: #2ed573;
+}
+
+/* CARD PRINCIPAL */
+.container {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+
+    background-image: url('logo.png/01.png'); /* AQUI */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 200px;
+
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.container {
+    background: rgba(255, 255, 255, 0.15); /* 👈 transparente */
+    backdrop-filter: blur(12px);
+
+    border-radius: 20px;
+
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3);
+    
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* TÍTULO */
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: white;
+}
+h1 {
+    color: white;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
+}
+.logo {
+    display: block;
+    margin: 0 auto 15px;
+    width: 200px;
+}
+
+/* CALENDÁRIO MINI */
+#calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin: 10px 0;
+}
+
+.dia {
+    background: #f1f1f1;
+    padding: 6px;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.dia:hover {
+    background: #dfe6ff;
+}
+
+.ativo {
+    background: #6c5ce7;
+    color: white;
+}
+
+/* INPUT */
+input {
+
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+/* BOTÃO */
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* TAREFAS */
+.task {
+    background: #f8f9ff;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 6px solid transparent;
+
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.1);
+
+    transition: 0.2s;
+}
+
+.task:hover {
+    transform: scale(1.02);
+    box-shadow: 
+        0 8px 15px rgba(0,0,0,0.2);
+}
+
+.task.urgent {
+    border-left-color: #ff4d4d;
+}
+
+.task.medium {
+    border-left-color: #ffa502;
+}
+
+.task.normal {
+    border-left-color: #2ed573;
+}
+
+.done {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+#msg {
+    display: none;
+    color: red;
+    font-size: 14px;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.dia-box {
+    background: #f1f1f1;
+    border-radius: 10px;
+    padding: 5px;
+    min-height: 80px;
+    position: relative;
+}
+
+.dia-box {
+    background: #f1f1f1;
+    border-radius: 10px;
+    padding: 5px;
+    min-height: 80px;
+
+    box-shadow: 
+        0 4px 10px rgba(0,0,0,0.1);
+
+    backdrop-filter: blur(3px);
+
+    transition: 0.2s;
+}
+
+.dia-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 20px rgba(0,0,0,0.2);
+}
+
+.evento {
+    font-size: 10px;
+    padding: 3px;
+    border-radius: 5px;
+    margin-top: 3px;
+    color: white;
+}
+
+.evento.urgent { background: #ff4d4d; }
+.evento.medium { background: #ffa502; }
+.evento.normal { background: #2ed573; }
+
+#contador {
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+   <img src="logo.png/01.png" class="logo">
+    <h1>AGENDA STANCE</h1>
+
+    <!-- CALENDÁRIO -->
+    <div id="calendario"></div>
+    <p id="dataSelecionada"></p>
+
+   <input id="tarefa" placeholder="Digite uma tarefa">
+   <input type="time" id="hora">
+
+<select id="priority">
+    <option value="normal">Normal</option>
+    <option value="medium">Médio</option>
+    <option value="urgent">Urgente</option>
+</select>
+
+<button onclick="add()">Adicionar</button>
+
+    <p id="msg"></p>
+
+    <p id="contador"></p>
+
+    <div id="lista"></div>
+
+</div>
+
+<script>
+const API = "https://agenda-api-f6vu.onrender.com/tasks";
+
+let dataSelecionada = new Date().toISOString().split("T")[0];
+
+// CALENDÁRIO
+async function gerarCalendario() {
+    const cal = document.getElementById("calendario");
+    cal.innerHTML = "";
+    cal.className = "cal-grid";
+
+    const res = await fetch(API);
+    const dados = await res.json();
+
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = hoje.getMonth();
+
+    const totalDias = new Date(ano, mes + 1, 0).getDate();
+
+    for (let d = 1; d <= totalDias; d++) {
+        const data = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+        const box = document.createElement("div");
+        box.className = "dia-box";
+
+        const titulo = document.createElement("strong");
+        titulo.innerText = d;
+
+        box.appendChild(titulo);
+
+        // 🔥 tarefas dentro do dia
+        const tarefasDoDia = dados.filter(t => t.date === data);
+
+        tarefasDoDia.forEach(t => {
+            const ev = document.createElement("div");
+            ev.className = `evento ${t.priority || "normal"}`;
+
+            ev.innerText = `${t.time} - ${t.title}`;
+
+            box.appendChild(ev);
+        });
+
+        box.onclick = () => {
+            dataSelecionada = data;
+            carregar();
+        };
+
+        cal.appendChild(box);
+    }
+}
+// CARREGAR TAREFAS
+async function carregar() {
+    const res = await fetch(API);
+    let dados = await res.json();
+    console.log("TODOS:", dados);
+    console.log("DATA:", dataSelecionada);
+
+    dados = dados.filter(t => t.date?.trim() === dataSelecionada?.trim());
+
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    dados.forEach(t => {
+    const div = document.createElement("div");
+    div.className = `task ${t.priority || 'normal'}`;
+
+    div.innerHTML = `
+        <span class="${t.done ? 'done' : ''}">
+            ${t.title}
+        </span>
+        <div>
+            <button onclick="toggle(${t.id})">✔</button>
+            <button onclick="del(${t.id})">🗑</button>
+        </div>
+    `;
+
+    // ESSA LINHA AQUI (ESSENCIAL)
+    lista.appendChild(div);
+});
+
+    // 👇 AQUI (DENTRO DA FUNÇÃO)
+    const total = dados.length;
+    const urgentes = dados.filter(t => t.priority === "urgent").length;
+
+    document.getElementById("contador").innerText =
+        `Total: ${total} tarefas | Urgentes: ${urgentes}`;
+}
+
+// ADICIONAR
+async function add() {
+    const tarefa = document.getElementById("tarefa").value;
+    const priority = document.getElementById("priority").value;
+    const hora = document.getElementById("hora").value; 
+    const msg = document.getElementById("msg");
+
+    if (!tarefa) {
+        msg.style.display = "block";
+        msg.innerText = "Preencha tudo!";
+        return;
+    }
+
+    msg.style.display = "none";
+
+    await fetch(API, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            title: tarefa,
+            date: dataSelecionada,
+            time: hora,
+            priority: priority
+        })
+    });
+
+    document.getElementById("tarefa").value = "";
+    document.getElementById("hora").value = "";
+
+    carregar();
+    gerarCalendario(); // atualiza os blocos
+}
+// TOGGLE
+async function toggle(id) {
+    await fetch(`${API}/${id}`, { method: "PUT" });
+    carregar();
+}
+
+// DELETE
+async function del(id) {
+    await fetch(`${API}/${id}`, { method: "DELETE" });
+    carregar();
+}
+
+gerarCalendario();
+carregar();
+</script>
+
+</body>
+</html>
