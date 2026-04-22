@@ -263,6 +263,13 @@ button {
     pointer-events: none;
 }
 
+/*destacar dia*/
+.hoje {
+    border: 2px solid #6c5ce7;
+    background: #dfe6ff;
+    box-shadow: 0 0 10px rgba(108,92,231,0.6);
+}
+
 </style>
 </head>
 
@@ -356,6 +363,12 @@ async function gerarCalendario() {
 
         const box = document.createElement("div");
         box.className = "dia-box";
+
+        const hoje = new Date().toISOString().split("T")[0];
+
+        if (data === hoje) {
+        box.classList.add("hoje");
+}
 
         const titulo = document.createElement("strong");
         titulo.innerText = d;
