@@ -64,8 +64,8 @@ body {
     background-position: center;
     background-size: 200px;
 
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: none;
+    overflow: visible;
 }
 .container {
     
@@ -137,9 +137,7 @@ input {
 
 /* BOTÃO */
 button {
-    width: 100%;
     padding: 10px;
-    margin-top: 10px;
     background: #6c5ce7;
     color: white;
     border: none;
@@ -147,6 +145,17 @@ button {
     cursor: pointer;
 }
 
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#mesTitulo {
+    color: white;
+    font-weight: bold;
+}
 /* TAREFAS */
 .task {
     background: #f8f9ff;
@@ -266,12 +275,10 @@ button {
     <h1>AGENDA STANCE</h1>
 
     <!-- CALENDÁRIO -->
-<div style="display:flex; justify-content:space-between; align-items:center;">
-    <button onclick="mesAnterior()">◀</button>
+<div class="topo">
+    <button id="btnAnterior">◀</button>
     <h3 id="mesTitulo"></h3>
-    <button onclick="proximoMes()">▶</button>
-
-    <button onclick="alert('clicou')">◀</button>
+    <button id="btnProximo">▶</button>
 </div>
 
     <div id="calendario"></div>
@@ -305,30 +312,23 @@ let dataAtual = new Date();
 let anoAtual = dataAtual.getFullYear();
 let mesAtual = dataAtual.getMonth();
 
-function mesAnterior() {
+document.getElementById("btnAnterior").addEventListener("click", () => {
     mesAtual--;
     if (mesAtual < 0) {
         mesAtual = 11;
         anoAtual--;
     }
     gerarCalendario();
+});
 
-}
-
-function proximoMes() {
-    alert("função rodou");
+document.getElementById("btnProximo").addEventListener("click", () => {
     mesAtual++;
     if (mesAtual > 11) {
         mesAtual = 0;
         anoAtual++;
     }
-
-    dataSelecionada = `${anoAtual}-${String(mesAtual+1).padStart(2,'0')}-01`;
-
     gerarCalendario();
-
-}
-
+});
 // CALENDÁRIO
 async function gerarCalendario() {
 
