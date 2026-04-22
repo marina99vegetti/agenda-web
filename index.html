@@ -58,7 +58,8 @@ body {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
 
-    background-image: url('logo.png/01.png'); /* AQUI */
+    background-image: url('01.png');
+    pointer-events: none;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 200px;
@@ -67,7 +68,8 @@ body {
     overflow-y: auto;
 }
 .container {
-    background: rgba(255, 255, 255, 0.15); /* 👈 transparente */
+    
+    background: rgba(255, 255, 255, 0.15); /* transparente */
     backdrop-filter: blur(12px);
 
     border-radius: 20px;
@@ -120,6 +122,8 @@ h1 {
     background: #6c5ce7;
     color: white;
 }
+
+
 
 /* INPUT */
 input {
@@ -241,17 +245,35 @@ button {
     margin-top: 10px;
 }
 
+.bg-logo {
+    position: absolute;
+    opacity: 0.05;
+    width: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
+   <img src="01.png" class="bg-logo">
    <img src="logo.png/01.png" class="logo">
     <h1>AGENDA STANCE</h1>
 
     <!-- CALENDÁRIO -->
+<div style="display:flex; justify-content:space-between; align-items:center;">
+    <button onclick="mesAnterior()">◀</button>
+    <h3 id="mesTitulo"></h3>
+    <button onclick="proximoMes()">▶</button>
+
+    <button onclick="alert('clicou')">◀</button>
+</div>
+
     <div id="calendario"></div>
     <p id="dataSelecionada"></p>
 
@@ -279,8 +301,37 @@ const API = "https://agenda-api-f6vu.onrender.com/tasks";
 
 let dataSelecionada = new Date().toISOString().split("T")[0];
 
+let dataAtual = new Date();
+let anoAtual = dataAtual.getFullYear();
+let mesAtual = dataAtual.getMonth();
+
+function mesAnterior() {
+    mesAtual--;
+    if (mesAtual < 0) {
+        mesAtual = 11;
+        anoAtual--;
+    }
+    gerarCalendario();
+
+}
+
+function proximoMes() {
+    alert("função rodou");
+    mesAtual++;
+    if (mesAtual > 11) {
+        mesAtual = 0;
+        anoAtual++;
+    }
+
+    dataSelecionada = `${anoAtual}-${String(mesAtual+1).padStart(2,'0')}-01`;
+
+    gerarCalendario();
+
+}
+
 // CALENDÁRIO
 async function gerarCalendario() {
+
     const cal = document.getElementById("calendario");
     cal.innerHTML = "";
     cal.className = "cal-grid";
@@ -288,9 +339,16 @@ async function gerarCalendario() {
     const res = await fetch(API);
     const dados = await res.json();
 
-    const hoje = new Date();
-    const ano = hoje.getFullYear();
-    const mes = hoje.getMonth();
+    const ano = anoAtual;
+    const mes = mesAtual;
+
+    const meses = [
+       "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+       "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
+];
+
+    document.getElementById("mesTitulo").innerText =
+    `${meses[mes]} ${ano}`;
 
     const totalDias = new Date(ano, mes + 1, 0).getDate();
 
@@ -305,69 +363,31 @@ async function gerarCalendario() {
 
         box.appendChild(titulo);
 
-        // 🔥 tarefas dentro do dia
+        // tarefas dentro do dia
         const tarefasDoDia = dados.filter(t => t.date === data);
 
         tarefasDoDia.forEach(t => {
             const ev = document.createElement("div");
             ev.className = `evento ${t.priority || "normal"}`;
 
-            ev.innerText = `${t.time} - ${t.title}`;
+            ev.innerText = `${t.time || "--:--"} - ${t.title}`;
 
             box.appendChild(ev);
         });
 
         box.onclick = () => {
             dataSelecionada = data;
-            carregar();
+        
         };
 
         cal.appendChild(box);
     }
 }
 // CARREGAR TAREFAS
-async function carregar() {
-    const res = await fetch(API);
-    let dados = await res.json();
-    console.log("TODOS:", dados);
-    console.log("DATA:", dataSelecionada);
-
-    dados = dados.filter(t => t.date?.trim() === dataSelecionada?.trim());
-
-    const lista = document.getElementById("lista");
-    lista.innerHTML = "";
-
-    dados.forEach(t => {
-    const div = document.createElement("div");
-    div.className = `task ${t.priority || 'normal'}`;
-
-    div.innerHTML = `
-        <span class="${t.done ? 'done' : ''}">
-            ${t.title}
-        </span>
-        <div>
-            <button onclick="toggle(${t.id})">✔</button>
-            <button onclick="del(${t.id})">🗑</button>
-        </div>
-    `;
-
-    // ESSA LINHA AQUI (ESSENCIAL)
-    lista.appendChild(div);
-});
-
-    // 👇 AQUI (DENTRO DA FUNÇÃO)
-    const total = dados.length;
-    const urgentes = dados.filter(t => t.priority === "urgent").length;
-
-    document.getElementById("contador").innerText =
-        `Total: ${total} tarefas | Urgentes: ${urgentes}`;
-}
-
-// ADICIONAR
 async function add() {
     const tarefa = document.getElementById("tarefa").value;
     const priority = document.getElementById("priority").value;
-    const hora = document.getElementById("hora").value; 
+    const hora = document.getElementById("hora").value;
     const msg = document.getElementById("msg");
 
     if (!tarefa) {
@@ -392,23 +412,22 @@ async function add() {
     document.getElementById("tarefa").value = "";
     document.getElementById("hora").value = "";
 
-    carregar();
-    gerarCalendario(); // atualiza os blocos
+    gerarCalendario(); // atualiza o calendário também
 }
 // TOGGLE
 async function toggle(id) {
     await fetch(`${API}/${id}`, { method: "PUT" });
-    carregar();
+    
 }
 
 // DELETE
 async function del(id) {
     await fetch(`${API}/${id}`, { method: "DELETE" });
-    carregar();
+    
 }
 
 gerarCalendario();
-carregar();
+
 </script>
 
 </body>
