@@ -260,7 +260,6 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    pointer-events: none;
 }
 
 /*destacar dia*/
@@ -292,6 +291,7 @@ button {
 
    <input id="tarefa" placeholder="Digite uma tarefa">
    <input type="time" id="hora">
+   <input id="obs" placeholder="Observação (opcional)">
 
 <select id="priority">
     <option value="normal">Normal</option>
@@ -403,6 +403,7 @@ async function add() {
     const tarefa = document.getElementById("tarefa").value;
     const priority = document.getElementById("priority").value;
     const hora = document.getElementById("hora").value;
+    const obs = document.getElementById("obs").value;
     const msg = document.getElementById("msg");
 
     if (!tarefa) {
@@ -417,17 +418,20 @@ async function add() {
         method: "POST",
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify({
-            title: tarefa,
-            date: dataSelecionada,
-            time: hora,
-            priority: priority
-        })
+        title: tarefa,
+        date: dataSelecionada,
+        time: hora,
+        priority: priority,
+        obs: obs
+  })
     });
 
     document.getElementById("tarefa").value = "";
     document.getElementById("hora").value = "";
+    document.getElementById("obs").value = "";
 
-    gerarCalendario(); // atualiza o calendário também
+    carregar();
+    gerarCalendario();// atualiza o calendário também
 }
 
 async function carregar() {
@@ -444,11 +448,20 @@ async function carregar() {
         div.className = `task ${t.priority || "normal"}`;
 
         div.innerHTML = `
-            <span>${t.time || "--:--"} - ${t.title}</span>
-            <div>
-                <button onclick="del(${t.id})">🗑</button>
-            </div>
-        `;
+    <div>
+        <span onclick="toggle(${t.id})" style="cursor:pointer">
+            ${t.time || "--:--"} - ${t.title}
+        </span>
+        ${t.obs ? `<small style="display:block; margin-top:5px; opacity:0.6; font-style:italic;">${t.obs}</small>` : ""}
+    </div>
+    <div>
+        <button onclick="del(${t.id})">🗑</button>
+    </div>
+`;
+
+      if (t.done) {
+    div.classList.add("done");
+}
 
         lista.appendChild(div);
     });
@@ -457,20 +470,40 @@ async function carregar() {
         "Data: " + dataSelecionada;
 }
 
+carregar();
+gerarCalendario();
+
 // TOGGLE
 async function toggle(id) {
-    await fetch(`${API}/${id}`, { method: "PUT" });
-    
-}
+    const res = await fetch(API);
+    const dados = await res.json();
 
+    const tarefa = dados.find(t => t.id === id);
+
+    await fetch(`${API}/${id}`, {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ done: !tarefa.done })
+    });
+
+   document.addEventListener("DOMContentLoaded", () => {
+    carregar();
+    gerarCalendario();
+});
+}
 // DELETE
 async function del(id) {
-    await fetch(`${API}/${id}`, { method: "DELETE" });
-    
-}
+    document.querySelectorAll(".task").forEach(el => {
+        if (el.innerHTML.includes(`del(${id})`)) {
+            el.remove();
+        }
+    });
 
-gerarCalendario();
-carregar();
+    await fetch(`${API}/${id}`, { method: "DELETE" });
+
+    await carregar();
+    await gerarCalendario();
+}
 
 </script>
 
