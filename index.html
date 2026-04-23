@@ -325,6 +325,7 @@ document.getElementById("btnAnterior").addEventListener("click", () => {
         anoAtual--;
     }
     gerarCalendario();
+    carregar();
 });
 
 document.getElementById("btnProximo").addEventListener("click", () => {
@@ -334,7 +335,9 @@ document.getElementById("btnProximo").addEventListener("click", () => {
         anoAtual++;
     }
     gerarCalendario();
+    carregar();
 });
+
 // CALENDÁRIO
 async function gerarCalendario() {
 
@@ -386,11 +389,11 @@ async function gerarCalendario() {
 
             box.appendChild(ev);
         });
-
-        box.onclick = () => {
-            dataSelecionada = data;
         
-        };
+    box.onclick = () => {
+    dataSelecionada = data;
+    carregar();
+};
 
         cal.appendChild(box);
     }
@@ -426,6 +429,34 @@ async function add() {
 
     gerarCalendario(); // atualiza o calendário também
 }
+
+async function carregar() {
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    const res = await fetch(API);
+    const dados = await res.json();
+
+    const tarefasDoDia = dados.filter(t => t.date === dataSelecionada);
+
+    tarefasDoDia.forEach(t => {
+        const div = document.createElement("div");
+        div.className = `task ${t.priority || "normal"}`;
+
+        div.innerHTML = `
+            <span>${t.time || "--:--"} - ${t.title}</span>
+            <div>
+                <button onclick="del(${t.id})">🗑</button>
+            </div>
+        `;
+
+        lista.appendChild(div);
+    });
+
+    document.getElementById("dataSelecionada").innerText =
+        "Data: " + dataSelecionada;
+}
+
 // TOGGLE
 async function toggle(id) {
     await fetch(`${API}/${id}`, { method: "PUT" });
@@ -439,6 +470,7 @@ async function del(id) {
 }
 
 gerarCalendario();
+carregar();
 
 </script>
 
