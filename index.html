@@ -473,19 +473,6 @@ async function carregar() {
 carregar();
 gerarCalendario();
 
-await fetch(API, {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({
-        title: tarefa,
-        date: dataSelecionada,
-        time: hora,
-        priority: priority,
-        obs: obs,
-        done: false 
-    })
-});
-
 // TOGGLE
 async function toggle(id) {
     const res = await fetch(API);
@@ -511,8 +498,9 @@ async function del(id) {
         }
     });
 
-    fetch(`${API}/${id}`, { method: "DELETE" });
+    await fetch(`${API}/${id}`, { method: "DELETE" });
 
+    carregar();
     gerarCalendario();
 }
 
@@ -539,8 +527,10 @@ async function editar(id) {
         })
     });
 
+document.addEventListener("DOMContentLoaded", () => {
     carregar();
     gerarCalendario();
+});
 }
 
 </script>
