@@ -450,19 +450,34 @@ async function gerarCalendario() {
         });
 
         box.addEventListener("drop", async (e) => {
-            const id = e.dataTransfer.getData("id");
+    const id = e.dataTransfer.getData("id");
 
-            await fetch(`${API}/${id}`, {
-                method: "PUT",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ date: data })
-            });
+    // pega os dados atuais da tarefa
+    const res = await fetch(API);
+    const tarefas = await res.json();
+    const tarefa = tarefas.find(t => t.id == id);
 
-            box.classList.remove("dragover");
+    // salva tudo + nova data
+    await fetch(`${API}/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: tarefa.title,
+            date: data,
+            time: tarefa.time || "",
+            priority: tarefa.priority || "normal",
+            obs: tarefa.obs || "",
+            done: tarefa.done || false
+        })
+    });
 
-            await gerarCalendario();
-            await carregar();
-        });
+    box.classList.remove("dragover");
+
+    await gerarCalendario();
+    await carregar();
+});
 
         const titulo = document.createElement("strong");
         titulo.innerText = d;
