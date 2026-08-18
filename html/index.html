@@ -1,0 +1,397 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Agenda | STANCE Planner</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS do projeto -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+
+        <!-- =================================
+             MENU LATERAL
+        ================================== -->
+
+        <aside class="col-md-2 bg-dark text-white vh-100 p-4">
+
+
+            <h2 class="text-center mb-5">
+                STANCE TESTE
+            </h2>
+
+
+            <div class="d-grid gap-2">
+
+
+                <!-- DASHBOARD -->
+
+                <a
+                    href="dashboard.html"
+                    class="btn btn-outline-light"
+                >
+                    🏠 Dashboard
+                </a>
+
+
+                <!-- AGENDA -->
+
+                <a
+                    href="index.html"
+                    class="btn btn-primary"
+                >
+                    📅 Agenda
+                </a>
+
+
+                <!-- PRODUÇÕES -->
+
+                <a
+                    href="#"
+                    class="btn btn-outline-light"
+                >
+                    🎬 Produções
+                </a>
+
+
+                <!-- CLIENTES -->
+
+                <a
+                    href="#"
+                    class="btn btn-outline-light"
+                >
+                    👥 Clientes
+                </a>
+
+
+                <!-- RELATÓRIOS -->
+
+                <a
+                    href="#"
+                    class="btn btn-outline-light"
+                >
+                    📊 Relatórios
+                </a>
+
+
+                <!-- CONFIGURAÇÕES -->
+
+                <a
+                    href="#"
+                    class="btn btn-outline-light"
+                >
+                    ⚙️ Configurações
+                </a>
+
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =================================
+             CONTEÚDO
+        ================================== -->
+
+        <main class="col-md-10 p-4">
+
+
+            <!-- TÍTULO -->
+
+            <div
+                class="d-flex justify-content-between align-items-center mb-4"
+            >
+
+                <div>
+
+                    <h1>
+                        Agenda STANCE
+                    </h1>
+
+                    <p class="text-muted">
+                        Organize suas produções
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    👤 Marina
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 ÁREA PRINCIPAL
+            ================================== -->
+
+            <div class="row g-4">
+
+
+                <!-- =================================
+                     CALENDÁRIO
+                ================================== -->
+
+                <div class="col-lg-8">
+
+
+                    <div class="card shadow border-0">
+
+
+                        <div class="card-body">
+
+
+                            <!-- CONTROLE DO MÊS -->
+
+                            <div
+                                class="topo d-flex justify-content-between align-items-center mb-3"
+                            >
+
+
+                                <button
+                                    id="btnAnterior"
+                                    class="btn btn-primary"
+                                >
+                                    ◀
+                                </button>
+
+
+                                <h4
+                                    id="mesTitulo"
+                                    class="mb-0"
+                                ></h4>
+
+
+                                <button
+                                    id="btnProximo"
+                                    class="btn btn-primary"
+                                >
+                                    ▶
+                                </button>
+
+
+                            </div>
+
+
+
+                            <!-- CALENDÁRIO -->
+
+                            <div id="calendario"></div>
+
+
+                            <!-- DATA SELECIONADA -->
+
+                            <p
+                                id="dataSelecionada"
+                                class="mt-3"
+                            ></p>
+
+
+                            <!-- LISTA DE PRODUÇÕES -->
+
+                            <div id="lista"></div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     NOVA PRODUÇÃO
+                ================================== -->
+
+                <div class="col-lg-4">
+
+
+                    <div class="card shadow border-0">
+
+
+                        <div class="card-body">
+
+
+                            <h4 class="mb-4">
+                                Nova Produção
+                            </h4>
+
+
+
+                            <!-- TÍTULO -->
+
+                            <label class="form-label">
+                                Título
+                            </label>
+
+
+                            <input
+                                id="tarefa"
+                                class="form-control mb-3"
+                                placeholder="Título da produção"
+                            >
+
+
+
+                            <!-- HORÁRIO -->
+
+                            <label class="form-label">
+                                Horário
+                            </label>
+
+
+                            <input
+                                id="hora"
+                                type="time"
+                                class="form-control mb-3"
+                            >
+
+
+
+                            <!-- OBSERVAÇÃO -->
+
+                            <label class="form-label">
+                                Observações
+                            </label>
+
+
+                            <input
+                                id="obs"
+                                class="form-control mb-3"
+                                placeholder="Briefing ou observações"
+                            >
+
+
+
+                            <!-- PRIORIDADE -->
+
+                            <label class="form-label">
+                                Prioridade
+                            </label>
+
+
+                            <select
+                                id="priority"
+                                class="form-select mb-3"
+                            >
+
+                                <option value="normal">
+                                    Normal
+                                </option>
+
+                                <option value="medium">
+                                    Média
+                                </option>
+
+                                <option value="urgent">
+                                    Urgente
+                                </option>
+
+                            </select>
+
+
+
+                            <!-- ADICIONAR -->
+
+                            <button
+                                onclick="add()"
+                                class="btn btn-success w-100"
+                            >
+
+                                ➕ Agendar Produção
+
+                            </button>
+
+
+
+                            <!-- MENSAGEM -->
+
+                            <p
+                                id="msg"
+                                class="mt-3 text-danger"
+                            ></p>
+
+
+
+                            <!-- CONTADOR -->
+
+                            <p
+                                id="contador"
+                                class="text-muted text-center mt-3"
+                            ></p>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================
+     BOOTSTRAP JS
+================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+
+<!-- =================================
+     JAVASCRIPT DA AGENDA
+================================== -->
+
+<script src="js/script.js"></script>
+
+
+</body>
+
+</html>
+```
