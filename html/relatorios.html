@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Produções | STANCE Planner</title>
+    <title>Relatórios | STANCE Planner</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
@@ -15,13 +14,11 @@
     >
 
     <link rel="stylesheet" href="../css/style.css">
-
 </head>
 
 <body>
 
 <div class="container-fluid">
-
     <div class="row">
 
         <!-- MENU -->
@@ -33,46 +30,51 @@
 
             <div class="d-grid gap-2">
 
-                <a
-                    href="dashboard.html"
-                    class="btn btn-outline-light"
-                >
+                <a 
+                        href="dashboard.html" 
+                        class="btn btn-outline-light">
+
                     🏠 Dashboard
+
                 </a>
 
-                <a
-                    href="index.html"
-                    class="btn btn-outline-light"
-                >
+                <a      href="index.html"
+                        class="btn btn-outline-light">
+
                     📅 Agenda
+
                 </a>
 
-                <a
-                    href="producoes.html"
-                    class="btn btn-primary"
-                >
+                <a      href="producoes.html" 
+                        class="btn btn-outline-light">
+
                     🎬 Produções
+
                 </a>
 
-                <a
-                    href="clientes.html"
-                    class="btn btn-outline-light"
-                >
+                <a 
+                        href="clientes.html" 
+                        class="btn btn-outline-light">
+                        
                     👥 Clientes
+
                 </a>
 
-                <a
-                    href= "relatorios.html"
-                    class="btn btn-outline-light"
-                >
+                <a 
+                        href="relatorios.html" 
+                        class="btn btn-primary">
+
                     📊 Relatórios
+
                 </a>
 
-                <a
-                    href="configuracoes.html"
-                    class="btn btn-outline-light"
-                >
+                <a      
+                        href="configurancoes.html" 
+                        class="btn btn-outline-light">
+
                     ⚙️ Configurações
+
+
                 </a>
 
             </div>
@@ -83,50 +85,34 @@
         <!-- CONTEÚDO -->
         <main class="col-md-10 p-4">
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="mb-4">
 
-                <div>
+                <h1>📊 Relatórios</h1>
 
-                    <h1>
-                        🎬 Produções
-                    </h1>
-
-                    <p class="text-muted">
-                        Gerencie todas as produções da STANCE.
-                    </p>
-
-                </div>
-
-                <a
-                    href="index.html"
-                    class="btn btn-success"
-                >
-                    ➕ Nova Produção
-                </a>
+                <p class="text-muted">
+                    Acompanhe um resumo das atividades da STANCE.
+                </p>
 
             </div>
 
 
-            <!-- CONTADORES -->
-
+            <!-- CARDS -->
             <div class="row g-4 mb-4">
 
                 <div class="col-md-4">
 
                     <div class="card shadow-sm border-0">
-
                         <div class="card-body">
 
                             <h6 class="text-muted">
-                                Total
+                                Total de Produções
                             </h6>
 
-                            <h2 id="totalProducoes">
+                            <h2 id="relatorioProducoes">
                                 0
                             </h2>
 
                         </div>
-
                     </div>
 
                 </div>
@@ -135,19 +121,17 @@
                 <div class="col-md-4">
 
                     <div class="card shadow-sm border-0">
-
                         <div class="card-body">
 
                             <h6 class="text-muted">
-                                Pendentes
+                                Produções Concluídas
                             </h6>
 
-                            <h2 id="pendentesProducoes">
+                            <h2 id="relatorioConcluidas">
                                 0
                             </h2>
 
                         </div>
-
                     </div>
 
                 </div>
@@ -156,19 +140,17 @@
                 <div class="col-md-4">
 
                     <div class="card shadow-sm border-0">
-
                         <div class="card-body">
 
                             <h6 class="text-muted">
-                                Concluídas
+                                Total de Clientes
                             </h6>
 
-                            <h2 id="concluidasProducoes">
+                            <h2 id="relatorioClientes">
                                 0
                             </h2>
 
                         </div>
-
                     </div>
 
                 </div>
@@ -176,23 +158,19 @@
             </div>
 
 
-            <!-- LISTA -->
-
+            <!-- RESUMO -->
             <div class="card shadow-sm border-0">
 
                 <div class="card-body">
 
                     <h4 class="mb-4">
-                        Todas as Produções
+                        📈 Resumo Geral
                     </h4>
 
-                    <div
-                        id="listaProducoes"
-                        class="row g-3"
-                    >
+                    <div id="resumoRelatorio">
 
                         <p class="text-muted">
-                            Carregando produções...
+                            Carregando informações...
                         </p>
 
                     </div>
@@ -204,12 +182,10 @@
         </main>
 
     </div>
-
 </div>
 
 
-<script src="../js/producoes.js"></script>
+<script src="../js/relatorios.js"></script>
 
 </body>
-
 </html>

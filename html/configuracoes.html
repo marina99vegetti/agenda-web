@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Configurações | STANCE Planner</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- MENU -->
+        <aside class="col-md-2 bg-dark text-white vh-100 p-4">
+
+            <h2 class="text-center mb-5">
+                STANCE
+            </h2>
+
+            <div class="d-grid gap-2">
+
+                <a href="dashboard.html" class="btn btn-outline-light">
+                    🏠 Dashboard
+                </a>
+
+                <a href="index.html" class="btn btn-outline-light">
+                    📅 Agenda
+                </a>
+
+                <a href="producoes.html" class="btn btn-outline-light">
+                    🎬 Produções
+                </a>
+
+                <a href="clientes.html" class="btn btn-outline-light">
+                    👥 Clientes
+                </a>
+
+                <a href="relatorios.html" class="btn btn-outline-light">
+                    📊 Relatórios
+                </a>
+
+                <a href="configuracoes.html" class="btn btn-primary">
+                    ⚙️ Configurações
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CONTEÚDO -->
+        <main class="col-md-10 p-4">
+
+            <div class="mb-4">
+
+                <h1>⚙️ Configurações</h1>
+
+                <p class="text-muted">
+                    Personalize algumas informações da sua STANCE.
+                </p>
+
+            </div>
+
+
+            <!-- DADOS DA AGÊNCIA -->
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-body">
+
+                    <h4 class="mb-4">
+                        🏢 Dados da Agência
+                    </h4>
+
+                    <label class="form-label">
+                        Nome da Agência
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nomeAgencia"
+                        class="form-control mb-3"
+                        placeholder="Nome da agência"
+                    >
+
+                    <label class="form-label">
+                        Nome do Responsável
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nomeResponsavel"
+                        class="form-control mb-3"
+                        placeholder="Nome do responsável"
+                    >
+
+                    <button
+                        class="btn btn-success"
+                        onclick="salvarConfiguracoes()"
+                    >
+                        💾 Salvar Alterações
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- DADOS DO SISTEMA -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4 class="mb-3">
+                        ℹ️ Sobre o Sistema
+                    </h4>
+
+                    <p class="mb-1">
+                        <strong>Sistema:</strong>
+                        STANCE Planner
+                    </p>
+
+                    <p class="mb-0">
+                        <strong>Versão:</strong>
+                        1.0
+                    </p>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+</div>
+
+
+<script src="../js/configuracoes.js"></script>
+
+</body>
+</html>
