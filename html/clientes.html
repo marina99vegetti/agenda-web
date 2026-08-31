@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Clientes | STANCE Planner</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- MENU -->
+        <aside class="col-md-2 bg-dark text-white vh-100 p-4">
+
+            <h2 class="text-center mb-5">
+                STANCE
+            </h2>
+
+            <div class="d-grid gap-2">
+
+                <a href="dashboard.html" class="btn btn-outline-light">
+                    🏠 Dashboard
+                </a>
+
+                <a href="index.html" class="btn btn-outline-light">
+                    📅 Agenda
+                </a>
+
+                <a href="producoes.html" class="btn btn-outline-light">
+                    🎬 Produções
+                </a>
+
+                <a href="clientes.html" class="btn btn-primary">
+                    👥 Clientes
+                </a>
+
+                <a href="#" class="btn btn-outline-light">
+                    📊 Relatórios
+                </a>
+
+                <a href="#" class="btn btn-outline-light">
+                    ⚙️ Configurações
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CONTEÚDO -->
+        <main class="col-md-10 p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h1>👥 Clientes</h1>
+
+                    <p class="text-muted">
+                        Gerencie os clientes da STANCE.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalCliente"
+                >
+                    ➕ Novo Cliente
+                </button>
+
+            </div>
+
+
+            <!-- CONTADORES -->
+            <div class="row g-4 mb-4">
+
+                <div class="col-md-4">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body">
+
+                            <h6 class="text-muted">
+                                Total de Clientes
+                            </h6>
+
+                            <h2 id="totalClientes">
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body">
+
+                            <h6 class="text-muted">
+                                Clientes Ativos
+                            </h6>
+
+                            <h2 id="clientesAtivos">
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body">
+
+                            <h6 class="text-muted">
+                                Novos Clientes
+                            </h6>
+
+                            <h2 id="novosClientes">
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LISTA DE CLIENTES -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4 class="mb-4">
+                        Lista de Clientes
+                    </h4>
+
+                    <div id="listaClientes" class="row g-3">
+
+                        <p class="text-muted">
+                            Nenhum cliente cadastrado ainda.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL NOVO CLIENTE -->
+<div
+    class="modal fade"
+    id="modalCliente"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    Novo Cliente
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <input
+                    type="text"
+                    id="nomeCliente"
+                    class="form-control mb-3"
+                    placeholder="Nome do cliente"
+                >
+
+                <input
+                    type="text"
+                    id="telefoneCliente"
+                    class="form-control mb-3"
+                    placeholder="Telefone"
+                >
+
+                <input
+                    type="email"
+                    id="emailCliente"
+                    class="form-control mb-3"
+                    placeholder="E-mail"
+                >
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick="adicionarCliente()"
+                >
+                    Salvar Cliente
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="../js/clientes.js"></script>
+
+</body>
+
+</html>
