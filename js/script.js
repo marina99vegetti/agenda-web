@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/tasks";
+const API = "https://stance-planner-api.onrender.com/tasks";
 
 let tarefas = [];
 
@@ -91,11 +91,19 @@ function gerarCalendario() {
 
         box.addEventListener("click", () => {
 
-            dataSelecionada = data;
+    dataSelecionada = data;
 
-            carregar();
+    // Remove a seleção anterior
+    diasCalendario.forEach(dia => {
+        dia.classList.remove("selecionado");
+    });
 
-        });
+    // Marca o dia clicado
+    box.classList.add("selecionado");
+
+    carregar();
+
+});
 
         box.addEventListener("dragover", (e) => {
 
