@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -22,7 +22,7 @@
 
     <link
         rel="stylesheet"
-        href="css/style.css"
+        href="../css/style.css"
     >
 
 </head>
@@ -57,7 +57,7 @@
                     href="dashboard.html"
                     class="btn btn-outline-light"
                 >
-                    🏠 Dashboard
+                    ðŸ  Dashboard
                 </a>
 
 
@@ -67,17 +67,17 @@
                     href="index.html"
                     class="btn btn-primary"
                 >
-                    📅 Agenda
+                    ðŸ“… Agenda
                 </a>
 
 
-                <!-- PRODUÇÕES -->
+                <!-- PRODUÃ‡Ã•ES -->
 
                 <a 
                     href="producoes.html" 
                     class="btn btn-outline-light"
                 >
-                   🎬 Produções
+                   ðŸŽ¬ ProduÃ§Ãµes
                 </a>
 
 
@@ -87,29 +87,29 @@
                     href="clientes.html"
                     class="btn btn-outline-light"
                 >
-                    👥 Clientes
+                    ðŸ‘¥ Clientes
                 </a>
 
 
-                <!-- RELATÓRIOS -->
+                <!-- RELATÃ“RIOS -->
 
                 <a
                     href="clientes.html" 
                     class="btn btn-outline-light"
                 
                 >
-                    📊 Relatórios
+                    ðŸ“Š RelatÃ³rios
                 </a>
 
 
-                <!-- CONFIGURAÇÕES -->
+                <!-- CONFIGURAÃ‡Ã•ES -->
 
                 <a
                     href="configuracoes.html" 
                     class="btn btn-outline-light"
 
                 >
-                    ⚙️ Configurações
+                    âš™ï¸ ConfiguraÃ§Ãµes
                 </a>
 
 
@@ -120,13 +120,13 @@
 
 
         <!-- =================================
-             CONTEÚDO
+             CONTEÃšDO
         ================================== -->
 
         <main class="col-md-10 p-4">
 
 
-            <!-- TÍTULO -->
+            <!-- TÃTULO -->
 
             <div
                 class="d-flex justify-content-between align-items-center mb-4"
@@ -139,7 +139,7 @@
                     </h1>
 
                     <p class="text-muted">
-                        Organize suas produções
+                        Organize suas produÃ§Ãµes
                     </p>
 
                 </div>
@@ -147,7 +147,7 @@
 
                 <div>
 
-                    👤 Marina
+                    ðŸ‘¤ Marina
 
                 </div>
 
@@ -156,14 +156,14 @@
 
 
             <!-- =================================
-                 ÁREA PRINCIPAL
+                 ÃREA PRINCIPAL
             ================================== -->
 
             <div class="row g-4">
 
 
                 <!-- =================================
-                     CALENDÁRIO
+                     CALENDÃRIO
                 ================================== -->
 
                 <div class="col-lg-8">
@@ -175,7 +175,7 @@
                         <div class="card-body">
 
 
-                            <!-- CONTROLE DO MÊS -->
+                            <!-- CONTROLE DO MÃŠS -->
 
                             <div
                                 class="topo d-flex justify-content-between align-items-center mb-3"
@@ -186,7 +186,7 @@
                                     id="btnAnterior"
                                     class="btn btn-primary"
                                 >
-                                    ◀
+                                    â—€
                                 </button>
 
 
@@ -200,7 +200,7 @@
                                     id="btnProximo"
                                     class="btn btn-primary"
                                 >
-                                    ▶
+                                    â–¶
                                 </button>
 
 
@@ -208,20 +208,20 @@
 
 
 
-                            <!-- CALENDÁRIO -->
+                            <!-- CALENDÃRIO -->
 
                             <div id="calendario"></div>
 
 
                             <!-- DATA SELECIONADA -->
 
-                            <p
-                                id="dataSelecionada"
-                                class="mt-3"
-                            ></p>
+                            <p 
+                                id="dataSelecionada" 
+                                style="display: none;">
+                            </p>
 
 
-                            <!-- LISTA DE PRODUÇÕES -->
+                            <!-- LISTA DE PRODUÃ‡Ã•ES -->
 
                             <div id="lista"></div>
 
@@ -235,7 +235,7 @@
 
 
                 <!-- =================================
-                     NOVA PRODUÇÃO
+                     NOVA PRODUÃ‡ÃƒO
                 ================================== -->
 
                 <div class="col-lg-4">
@@ -248,30 +248,30 @@
 
 
                             <h4 class="mb-4">
-                                Nova Produção
+                                Nova ProduÃ§Ã£o
                             </h4>
 
 
 
-                            <!-- TÍTULO -->
+                            <!-- TÃTULO -->
 
                             <label class="form-label">
-                                Título
+                                TÃ­tulo
                             </label>
 
 
                             <input
                                 id="tarefa"
                                 class="form-control mb-3"
-                                placeholder="Título da produção"
+                                placeholder="TÃ­tulo da produÃ§Ã£o"
                             >
 
 
 
-                            <!-- HORÁRIO -->
+                            <!-- HORÃRIO -->
 
                             <label class="form-label">
-                                Horário
+                                HorÃ¡rio
                             </label>
 
 
@@ -283,17 +283,17 @@
 
 
 
-                            <!-- OBSERVAÇÃO -->
+                            <!-- OBSERVAÃ‡ÃƒO -->
 
                             <label class="form-label">
-                                Observações
+                                ObservaÃ§Ãµes
                             </label>
 
 
                             <input
                                 id="obs"
                                 class="form-control mb-3"
-                                placeholder="Briefing ou observações"
+                                placeholder="Briefing ou observaÃ§Ãµes"
                             >
 
 
@@ -315,7 +315,7 @@
                                 </option>
 
                                 <option value="medium">
-                                    Média
+                                    MÃ©dia
                                 </option>
 
                                 <option value="urgent">
@@ -333,7 +333,7 @@
                                 class="btn btn-success w-100"
                             >
 
-                                ➕ Agendar Produção
+                                âž• Agendar ProduÃ§Ã£o
 
                             </button>
 
