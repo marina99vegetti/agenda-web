@@ -1,13 +1,14 @@
 ﻿const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const FILE = "tasks.json";
+const FILE = path.join(__dirname, "tasks.json");
 
 let tasks = [];
 
@@ -21,8 +22,16 @@ if (fs.existsSync(FILE)) {
 }
 
 function saveTasks() {
-    fs.writeFileSync(FILE, JSON.stringify(tasks, null, 2), "utf-8");
+    fs.writeFileSync(
+        FILE,
+        JSON.stringify(tasks, null, 2),
+        "utf-8"
+    );
 }
+
+/* =========================
+   API - TAREFAS
+========================= */
 
 app.get("/tasks", (req, res) => {
     res.json(tasks);
@@ -46,7 +55,9 @@ app.post("/tasks", (req, res) => {
         res.json(newTask);
     } catch (error) {
         console.error("ERRO REAL:", error);
-        res.status(500).json({ error: "Erro interno" });
+        res.status(500).json({
+            error: "Erro interno"
+        });
     }
 });
 
@@ -67,6 +78,7 @@ app.put("/tasks/:id", (req, res) => {
     };
 
     saveTasks();
+
     res.json(tasks[index]);
 });
 
@@ -76,11 +88,32 @@ app.delete("/tasks/:id", (req, res) => {
     );
 
     saveTasks();
-    res.json({ ok: true });
+
+    res.json({
+        ok: true
+    });
 });
+
+/* =========================
+   SITE
+========================= */
+
+app.use(express.static(__dirname));
+
+app.get("/", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "html", "index.html")
+    );
+});
+
+/* =========================
+   SERVIDOR
+========================= */
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log("Servidor STANCE rodando na porta " + PORT);
+    console.log(
+        "Servidor STANCE rodando na porta " + PORT
+    );
 });
