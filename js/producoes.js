@@ -1,4 +1,4 @@
-const API = "https://agenda-api-f6vu.onrender.com/tasks";
+const API = "/tasks";
 
 let producoes = [];
 

@@ -1,5 +1,4 @@
-console.log("DASHBOARD.JS FOI CARREGADO!");
-const API = "http://localhost:3000/tasks";
+const API = "/tasks";
 
 let tarefas = [];
 
