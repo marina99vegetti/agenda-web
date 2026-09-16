@@ -54,24 +54,14 @@ function gerarCalendario() {
     if (!cal) return;
 
     cal.innerHTML = "";
-
     diasCalendario.clear();
 
     cal.className = "cal-grid";
 
     const meses = [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro"
+        "Janeiro", "Fevereiro", "Março", "Abril",
+        "Maio", "Junho", "Julho", "Agosto",
+        "Setembro", "Outubro", "Novembro", "Dezembro"
     ];
 
     const mesTitulo = document.getElementById("mesTitulo");
@@ -82,11 +72,7 @@ function gerarCalendario() {
     }
 
     const totalDias =
-        new Date(
-            anoAtual,
-            mesAtual + 1,
-            0
-        ).getDate();
+        new Date(anoAtual, mesAtual + 1, 0).getDate();
 
     const hoje =
         new Date().toISOString().split("T")[0];
@@ -104,6 +90,10 @@ function gerarCalendario() {
             box.classList.add("hoje");
         }
 
+        if (data === dataSelecionada) {
+            box.classList.add("selecionado");
+        }
+
         const titulo = document.createElement("strong");
 
         titulo.innerText = d;
@@ -116,24 +106,23 @@ function gerarCalendario() {
 
             dataSelecionada = data;
 
-            atualizarSelecao();
+            diasCalendario.forEach((dia) => {
+                dia.classList.remove("selecionado");
+            });
+
+            box.classList.add("selecionado");
 
             carregar();
 
         });
 
         box.addEventListener("dragover", (e) => {
-
             e.preventDefault();
-
             box.classList.add("dragover");
-
         });
 
         box.addEventListener("dragleave", () => {
-
             box.classList.remove("dragover");
-
         });
 
         box.addEventListener("drop", moverTarefa);
@@ -141,11 +130,8 @@ function gerarCalendario() {
         cal.appendChild(box);
     }
 
-    atualizarSelecao();
-
     atualizarCalendario();
 }
-
 function atualizarCalendario() {
 
     diasCalendario.forEach((box, data) => {
@@ -722,6 +708,5 @@ document.addEventListener(
     }
 );
 
-alert('SCRIPT STANCE CARREGADO');
 
-document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:0;left:0;right:0;background:red;color:white;padding:20px;z-index:99999;text-align:center;font-size:24px;font-weight:bold;">SCRIPT NOVO CARREGADO</div>');
+
