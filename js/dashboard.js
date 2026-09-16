@@ -1,4 +1,4 @@
-const API = "/tasks";
+const API = "https://stance-planner-api.onrender.com/tasks";
 
 let tarefas = [];
 
