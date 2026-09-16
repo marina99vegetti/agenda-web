@@ -721,3 +721,7 @@ document.addEventListener(
 
     }
 );
+
+alert('SCRIPT STANCE CARREGADO');
+
+document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:0;left:0;right:0;background:red;color:white;padding:20px;z-index:99999;text-align:center;font-size:24px;font-weight:bold;">SCRIPT NOVO CARREGADO</div>');

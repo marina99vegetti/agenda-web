@@ -317,7 +317,7 @@ body{
         display: none;
     }
 } 
-/* ===== CALENDÁRIO STANCE ===== */
+/* ===== CALENDï¿½RIO STANCE ===== */
 
 .cal-grid {
     display: grid !important;
@@ -422,3 +422,34 @@ body{
     }
 }
 
+/* ===== DIA SELECIONADO ===== */
+
+.dia-box.selecionado {
+    outline: 4px solid #6c63ff !important;
+    outline-offset: -4px !important;
+    background: #e8e5ff !important;
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.20) !important;
+}
+
+.dia-box.selecionado > strong {
+    background: #6c63ff !important;
+    color: #ffffff !important;
+    transform: scale(1.08);
+}
+
+/* Hoje continua marcado mesmo quando outro dia Ã© selecionado */
+.dia-box.hoje {
+    border: 2px solid #6c63ff !important;
+    background: #f8f7ff !important;
+}
+
+.dia-box.hoje > strong {
+    background: #6c63ff !important;
+    color: white !important;
+}
+
+/* Hoje + selecionado */
+.dia-box.hoje.selecionado {
+    outline: 4px solid #574fff !important;
+    background: #e8e5ff !important;
+}

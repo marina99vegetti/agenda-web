@@ -4,10 +4,3 @@ services:
     name: agenda-stance-site
     buildCommand: ""
     staticPublishPath: .
-    routes:
-      - type: rewrite
-        source: /tasks
-        destination: https://stance-planner-api.onrender.com/tasks
-      - type: rewrite
-        source: /tasks/*
-        destination: https://stance-planner-api.onrender.com/tasks/*
