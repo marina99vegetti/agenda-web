@@ -1,4 +1,4 @@
-const API = "/tasks";
+﻿const API = "/tasks";
 
 let tarefas = [];
 
@@ -22,6 +22,29 @@ async function buscarTarefas() {
     } catch (erro) {
         console.error("Erro ao buscar tarefas:", erro);
     }
+}
+
+function atualizarSelecao() {
+
+    diasCalendario.forEach((box, data) => {
+
+        box.classList.remove("selecionado");
+
+        box.style.outline = "";
+        box.style.backgroundColor = "";
+        box.style.boxShadow = "";
+
+        if (data === dataSelecionada) {
+
+            box.classList.add("selecionado");
+
+            box.style.outline = "4px solid #6c63ff";
+            box.style.outlineOffset = "-4px";
+            box.style.backgroundColor = "#e8e5ff";
+            box.style.boxShadow =
+                "0 0 0 4px rgba(108, 99, 255, 0.25)";
+        }
+    });
 }
 
 function gerarCalendario() {
@@ -91,19 +114,13 @@ function gerarCalendario() {
 
         box.addEventListener("click", () => {
 
-    dataSelecionada = data;
+            dataSelecionada = data;
 
-    // Remove a seleção anterior
-    diasCalendario.forEach(dia => {
-        dia.classList.remove("selecionado");
-    });
+            atualizarSelecao();
 
-    // Marca o dia clicado
-    box.classList.add("selecionado");
+            carregar();
 
-    carregar();
-
-});
+        });
 
         box.addEventListener("dragover", (e) => {
 
@@ -123,6 +140,8 @@ function gerarCalendario() {
 
         cal.appendChild(box);
     }
+
+    atualizarSelecao();
 
     atualizarCalendario();
 }
@@ -163,8 +182,8 @@ function mesAnterior() {
     if (mesAtual < 0) {
 
         mesAtual = 11;
-
         anoAtual--;
+
     }
 
     gerarCalendario();
@@ -177,8 +196,8 @@ function mesProximo() {
     if (mesAtual > 11) {
 
         mesAtual = 0;
-
         anoAtual++;
+
     }
 
     gerarCalendario();
@@ -226,9 +245,7 @@ async function add() {
         if (msg) {
 
             msg.style.display = "block";
-
-            msg.innerText =
-                "Digite uma tarefa!";
+            msg.innerText = "Digite uma tarefa!";
 
         }
 
@@ -262,29 +279,20 @@ async function add() {
         });
 
         if (!res.ok) {
-
-            throw new Error(
-                "Erro ao salvar produção."
-            );
-
+            throw new Error("Erro ao salvar produção.");
         }
 
         const nova = await res.json();
 
         tarefas.push(nova);
 
-        tarefaInput.value = "";
-
-        horaInput.value = "";
-
-        obsInput.value = "";
-
-        priorityInput.value = "normal";
+        if (tarefaInput) tarefaInput.value = "";
+        if (horaInput) horaInput.value = "";
+        if (obsInput) obsInput.value = "";
+        if (priorityInput) priorityInput.value = "normal";
 
         carregar();
-
         atualizarCalendario();
-
         atualizarContador();
 
     } catch (erro) {
@@ -294,9 +302,7 @@ async function add() {
             erro
         );
 
-        alert(
-            "Erro ao salvar a produção."
-        );
+        alert("Erro ao salvar a produção.");
     }
 }
 
@@ -399,9 +405,7 @@ function carregar() {
         });
 
     const dataElemento =
-        document.getElementById(
-            "dataSelecionada"
-        );
+        document.getElementById("dataSelecionada");
 
     if (dataElemento) {
 
@@ -431,43 +435,32 @@ async function toggle(id) {
             await fetch(
                 `${API}/${id}`,
                 {
-
                     method: "PUT",
-
                     headers: {
                         "Content-Type":
                             "application/json"
                     },
-
                     body: JSON.stringify({
                         done: novoEstado
                     })
-
                 }
             );
 
         if (!res.ok) {
-            throw new Error(
-                "Erro ao atualizar."
-            );
+            throw new Error("Erro ao atualizar.");
         }
 
-        tarefas[index].done =
-            novoEstado;
+        tarefas[index].done = novoEstado;
 
         carregar();
-
         atualizarCalendario();
-
         atualizarContador();
 
     } catch (erro) {
 
         console.error(erro);
 
-        alert(
-            "Erro ao atualizar a produção."
-        );
+        alert("Erro ao atualizar a produção.");
     }
 }
 
@@ -491,9 +484,7 @@ async function del(id) {
             );
 
         if (!res.ok) {
-            throw new Error(
-                "Erro ao excluir."
-            );
+            throw new Error("Erro ao excluir.");
         }
 
         tarefas =
@@ -503,18 +494,14 @@ async function del(id) {
             );
 
         carregar();
-
         atualizarCalendario();
-
         atualizarContador();
 
     } catch (erro) {
 
         console.error(erro);
 
-        alert(
-            "Erro ao excluir a produção."
-        );
+        alert("Erro ao excluir a produção.");
     }
 }
 
@@ -527,8 +514,7 @@ async function editar(id) {
 
     if (index === -1) return;
 
-    const tarefa =
-        tarefas[index];
+    const tarefa = tarefas[index];
 
     const novoTitulo =
         prompt(
@@ -580,45 +566,32 @@ async function editar(id) {
             );
 
         if (!res.ok) {
-            throw new Error(
-                "Erro ao editar."
-            );
+            throw new Error("Erro ao editar.");
         }
 
-        tarefas[index].title =
-            novoTitulo;
-
-        tarefas[index].time =
-            novaHora;
-
-        tarefas[index].obs =
-            novaObs;
+        tarefas[index].title = novoTitulo;
+        tarefas[index].time = novaHora;
+        tarefas[index].obs = novaObs;
 
         carregar();
-
         atualizarCalendario();
 
     } catch (erro) {
 
         console.error(erro);
 
-        alert(
-            "Erro ao editar a produção."
-        );
+        alert("Erro ao editar a produção.");
     }
 }
 
 function atualizarContador() {
 
     const contador =
-        document.getElementById(
-            "contador"
-        );
+        document.getElementById("contador");
 
     if (!contador) return;
 
-    const total =
-        tarefas.length;
+    const total = tarefas.length;
 
     const urgentes =
         tarefas.filter(
@@ -635,8 +608,7 @@ async function moverTarefa(e) {
 
     e.preventDefault();
 
-    const box =
-        e.currentTarget;
+    const box = e.currentTarget;
 
     box.classList.remove("dragover");
 
@@ -688,17 +660,17 @@ async function moverTarefa(e) {
             );
 
         if (!res.ok) {
-
             throw new Error(
                 "Erro ao mover produção."
             );
-
         }
 
         tarefa.date = novaData;
 
-        carregar();
+        dataSelecionada = novaData;
 
+        atualizarSelecao();
+        carregar();
         atualizarCalendario();
 
     } catch (erro) {
@@ -716,14 +688,10 @@ document.addEventListener(
     async () => {
 
         const btnAnterior =
-            document.getElementById(
-                "btnAnterior"
-            );
+            document.getElementById("btnAnterior");
 
         const btnProximo =
-            document.getElementById(
-                "btnProximo"
-            );
+            document.getElementById("btnProximo");
 
         if (btnAnterior) {
 
