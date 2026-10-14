@@ -1,119 +1,145 @@
-﻿const express = require("express");
+﻿
+const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
 const path = require("path");
+const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const FILE = path.join(__dirname, "tasks.json");
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SECRET_KEY;
 
-let tasks = [];
+if (!supabaseUrl || !supabaseKey) {
+    console.error("ERRO: variáveis do Supabase não configuradas.");
+    process.exit(1);
+}
 
-if (fs.existsSync(FILE)) {
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// =========================
+// API - TAREFAS
+// =========================
+
+app.get("/tasks", async (req, res) => {
     try {
-        const data = fs.readFileSync(FILE, "utf-8");
-        tasks = data ? JSON.parse(data) : [];
-    } catch (e) {
-        tasks = [];
+        const { data, error } = await supabase
+            .from("tasks")
+            .select("*")
+            .order("date", { ascending: true });
+
+        if (error) throw error;
+
+        res.json(data);
+    } catch (error) {
+        console.error("Erro ao listar tarefas:", error.message);
+        res.status(500).json({ error: "Erro ao listar tarefas." });
     }
-}
-
-function saveTasks() {
-    fs.writeFileSync(
-        FILE,
-        JSON.stringify(tasks, null, 2),
-        "utf-8"
-    );
-}
-
-/* =========================
-   API - TAREFAS
-========================= */
-
-app.get("/tasks", (req, res) => {
-    res.json(tasks);
 });
 
-app.post("/tasks", (req, res) => {
+app.post("/tasks", async (req, res) => {
     try {
+        const { title, date, time, priority, obs } = req.body;
+
+        if (!title || !date) {
+            return res.status(400).json({
+                error: "Título e data são obrigatórios."
+            });
+        }
+
         const newTask = {
-            id: Date.now(),
-            title: req.body.title,
-            date: req.body.date,
-            time: req.body.time,
-            priority: req.body.priority || "normal",
-            obs: req.body.obs || "",
+            title,
+            date,
+            time: time || null,
+            priority: priority || "normal",
+            obs: obs || "",
             done: false
         };
 
-        tasks.push(newTask);
-        saveTasks();
+        const { data, error } = await supabase
+            .from("tasks")
+            .insert(newTask)
+            .select()
+            .single();
 
-        res.json(newTask);
+        if (error) throw error;
+
+        res.status(201).json(data);
     } catch (error) {
-        console.error("ERRO REAL:", error);
-        res.status(500).json({
-            error: "Erro interno"
-        });
+        console.error("Erro ao criar tarefa:", error.message);
+        res.status(500).json({ error: "Erro ao criar tarefa." });
     }
 });
 
-app.put("/tasks/:id", (req, res) => {
-    const index = tasks.findIndex(
-        task => task.id == req.params.id
-    );
+app.put("/tasks/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
 
-    if (index === -1) {
-        return res.status(404).json({
-            error: "Tarefa não encontrada"
-        });
+        const { data, error } = await supabase
+            .from("tasks")
+            .update(req.body)
+            .eq("id", id)
+            .select()
+            .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+            return res.status(404).json({
+                error: "Tarefa não encontrada."
+            });
+        }
+
+        res.json(data);
+    } catch (error) {
+        console.error("Erro ao atualizar tarefa:", error.message);
+        res.status(500).json({ error: "Erro ao atualizar tarefa." });
     }
-
-    tasks[index] = {
-        ...tasks[index],
-        ...req.body
-    };
-
-    saveTasks();
-
-    res.json(tasks[index]);
 });
 
-app.delete("/tasks/:id", (req, res) => {
-    tasks = tasks.filter(
-        task => task.id != req.params.id
-    );
+app.delete("/tasks/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
 
-    saveTasks();
+        const { data, error } = await supabase
+            .from("tasks")
+            .delete()
+            .eq("id", id)
+            .select();
 
-    res.json({
-        ok: true
-    });
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({
+                error: "Tarefa não encontrada."
+            });
+        }
+
+        res.json({ ok: true });
+    } catch (error) {
+        console.error("Erro ao excluir tarefa:", error.message);
+        res.status(500).json({ error: "Erro ao excluir tarefa." });
+    }
 });
 
-/* =========================
-   SITE
-========================= */
+// =========================
+// SITE
+// =========================
 
 app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
-    res.sendFile(
-        path.join(__dirname, "html", "index.html")
-    );
+    res.sendFile(path.join(__dirname, "html", "index.html"));
 });
 
-/* =========================
-   SERVIDOR
-========================= */
+// =========================
+// SERVIDOR
+// =========================
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(
-        "Servidor STANCE rodando na porta " + PORT
-    );
+    console.log("Servidor STANCE rodando na porta " + PORT);
 });
