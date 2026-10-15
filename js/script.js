@@ -132,34 +132,32 @@ function gerarCalendario() {
 
     atualizarCalendario();
 }
+
 function atualizarCalendario() {
-
     diasCalendario.forEach((box, data) => {
-
-        box
-            .querySelectorAll(".evento")
-            .forEach(evento => evento.remove());
+        box.querySelectorAll(".evento").forEach(evento => evento.remove());
 
         tarefas
             .filter(tarefa => tarefa.date === data)
             .forEach(tarefa => {
+                const evento = document.createElement("div");
+                evento.className = `evento ${tarefa.priority || "normal"}`;
 
-                const evento =
-                    document.createElement("div");
+                const hora = document.createElement("strong");
+                hora.className = "evento-hora";
+                hora.textContent = tarefa.time || "--:--";
 
-                evento.className =
-                    `evento ${tarefa.priority || "normal"}`;
+                const titulo = document.createElement("span");
+                titulo.className = "evento-titulo";
+                titulo.textContent = tarefa.title || "";
 
-                evento.innerHTML = `
-                    <strong>${tarefa.time || "--:--"}</strong>
-                    <br>
-                    ${tarefa.title}
-                `;
-
+                evento.appendChild(hora);
+                evento.appendChild(titulo);
                 box.appendChild(evento);
             });
     });
 }
+
 
 function mesAnterior() {
 
