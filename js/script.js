@@ -135,7 +135,10 @@ function gerarCalendario() {
 
 function atualizarCalendario() {
     diasCalendario.forEach((box, data) => {
-        box.querySelectorAll(".evento").forEach(evento => evento.remove());
+        box.querySelectorAll(".eventos-dia").forEach(area => area.remove());
+
+        const areaEventos = document.createElement("div");
+        areaEventos.className = "eventos-dia";
 
         tarefas
             .filter(tarefa => tarefa.date === data)
@@ -153,8 +156,10 @@ function atualizarCalendario() {
 
                 evento.appendChild(hora);
                 evento.appendChild(titulo);
-                box.appendChild(evento);
+                areaEventos.appendChild(evento);
             });
+
+        box.appendChild(areaEventos);
     });
 }
 
